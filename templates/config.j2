@@ -1,14 +1,5 @@
 {{ ansible_managed | comment }}
-{% if Location == "work" %}
-Host gitea gitea.johnpetro.com
-  Hostname home.johnpetro.com
-  Port 22100
-  User git
-{% else %}
-Host gitea gitea.johnpetro.com
-  Hostname home.johnpetro.com
-  User git
-{%endif%}
+
 {% if SshCustomConfig is defined%}
 {% for entry in SshCustomConfig %}
 #
