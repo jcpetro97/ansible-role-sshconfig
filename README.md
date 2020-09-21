@@ -7,25 +7,10 @@ This role will create/update the /home/<username>/.ssh/config file.  There are t
 | Parameter | Choices | Comments |
 | --------- | ------- | -------- |
 | `UserName`| | Username where config will be copied to|
-| `Location` | Choices:<ul><li>home</li><li>work</li></ul> |Set for customizations I have for work or home.|
-| `SshCustomConfig`| | This is where any non-default configs for the .ssh/config file would go for a user|
+| `SshCustomConfig`| | This is where the .ssh/config file entries should be placed|
 
 
 #### Example role execution
-
-```
-roles:
-  - role: SshConfig
-    vars:
-      UserName: "testuser"
-      Location: "home"
-
-roles:
-  - {role: SshConfig, UserName: "testuser", Location: "home"}
-  
-```
-
-Adding a custom rule:
 
 ```
       - role: SshConfig
@@ -46,5 +31,15 @@ Adding a custom rule:
               Options: |
                   Port 3000
                   User git
+            - Host: "gitea2 gitea2.johnpetro.com"
+              Hostname: "home2.johnpetro.com"
+              Options: |
+                  Port 3002
+                  User git
+
 
 ```
+
+#### Misc Notes 
+
+In the template, the `%- endif -%`  means that the trailing whitespace will be stripped out.
