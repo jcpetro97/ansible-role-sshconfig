@@ -2,17 +2,17 @@
 - name: Check if user exists
   action: shell /usr/bin/getent passwd {{UserName}} | /usr/bin/wc -l | tr -d ' '
   register: user_exist
+  changed_when: false
   when: UserName is defined
+
 - name: Get primary group for user
   shell: /usr/bin/id -gn "{{UserName}}"
   register: PrimaryGroup
+  changed_when: false
   when: 
     - UserName is defined
     - user_exist.stdout != "0"
-#- name: debug
-  #debug:
-    #msg: "UserName is {{UserName}} and group is {{PrimaryGroup.stdout}}"
-  #when: UserName is defined
+
 - name: create .ssh directory if it doens't exist
   file:
     path: ~{{UserName}}/.ssh
@@ -23,6 +23,7 @@
   when:  
     - UserName is defined
     - user_exist.stdout != "0"
+
 - name: Build .ssh/config file and copy it into .ssh/config
   template:
     src:  config.j2
