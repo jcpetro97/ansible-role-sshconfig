@@ -1,37 +1,18 @@
 ---
-- name: Check if user exists
-  action: shell /usr/bin/getent passwd {{UserName}} | /usr/bin/wc -l | tr -d ' '
-  register: user_exist
-  changed_when: false
-  when: UserName is defined
-
-- name: Get primary group for user
-  shell: /usr/bin/id -gn "{{UserName}}"
-  register: PrimaryGroup
-  changed_when: false
-  when: 
-    - UserName is defined
-    - user_exist.stdout != "0"
 
 - name: create .ssh directory if it doens't exist
   file:
     path: ~{{UserName}}/.ssh
-    owner:  "{{UserName}}"
-    group:  "{{PrimaryGroup.stdout}}"
     state:  directory
     mode: 0700
-  when:  
-    - UserName is defined
-    - user_exist.stdout != "0"
-
-- name: Build .ssh/config file and copy it into .ssh/config
-  template:
-    src:  config.j2
-    dest: /home/{{UserName}}/.ssh/config
-    owner:  "{{UserName}}"
-    group:  "{{ PrimaryGroup.stdout }}"
-    backup: no
-    mode: 0644
-  when: 
-    - UserName is defined
-    - user_exist.stdout != "0"
+  become_user: "{{ item.UserName }}"
+  with_items: "{{ Users }}"
+  loop_control:
+    label: "{{ item.UserName }}"
+    
+# - name: Build .ssh/config file and copy it into .ssh/config
+#   template:
+#     src:  config.j2
+#     dest: /home/{{UserName}}/.ssh/config
+#     backup: no
+#     mode: 0644
