@@ -1,12 +1,6 @@
 {{ ansible_managed | comment }}
-{% if SshCustomConfig is defined%}
+
 {% for entry in SshCustomConfig %}
 Host {{entry.Host}}
-{% if entry.Hostname is defined %}
-   Hostname {{entry.Hostname}}
-{% endif %}
-{% if entry.Options is defined%}
-{{ entry.Options | indent(3,true) }}
-{%- endif -%}
+
 {% endfor %}
-{%endif%}
