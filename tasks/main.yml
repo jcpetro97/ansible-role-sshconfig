@@ -17,6 +17,6 @@
     backup: no
     mode: 0644
   become_user: "{{ item.UserName }}"
-  with_items: "{{ Users }}"
+  with_items: "{{ SshConfig }}"
   loop_control:
     label: "{{ item.UserName }}"

@@ -1,6 +1,5 @@
 {{ ansible_managed | comment }}
 
 {% for config in SshCustomConfig %}
-Host {{config.Entry}}
-
+{{config.Entry}}
 {% endfor %}
