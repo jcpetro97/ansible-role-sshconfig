@@ -2,14 +2,14 @@
 
 - name: create .ssh directory if it doens't exist
   file:
-    path: ~{{UserName}}/.ssh
+    path: ~{{ item.UserName }}/.ssh
     state:  directory
     mode: 0700
   become_user: "{{ item.UserName }}"
   with_items: "{{ Users }}"
   loop_control:
     label: "{{ item.UserName }}"
-    
+
 # - name: Build .ssh/config file and copy it into .ssh/config
 #   template:
 #     src:  config.j2
