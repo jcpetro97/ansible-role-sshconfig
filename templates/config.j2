@@ -1,5 +1,5 @@
 {{ ansible_managed | comment }}
 
-{% for config in SshConfig %}
+{% for config in Users %}
 {{config.Entry}}
 {% endfor %}

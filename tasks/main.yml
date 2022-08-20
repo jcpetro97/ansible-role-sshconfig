@@ -13,10 +13,10 @@
 - name: Build .ssh/config file and copy it into .ssh/config
   template:
     src:  config.j2
-    dest: ~{{ item.User }}/.ssh/config
+    dest: ~{{ item.UserName }}/.ssh/config
     backup: no
     mode: 0644
-  become_user: "{{ item.User }}"
-  with_items: "{{ SshConfig }}"
+  become_user: "{{ item.UserName }}"
+  with_items: "{{ Users }}"
   loop_control:
-    label: "{{ item.User }}"
+    label: "{{ item.UserName }}"
