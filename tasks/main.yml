@@ -6,7 +6,7 @@
     state:  directory
     mode: 0700
   become_user: "{{ item.UserName }}"
-  with_items: "{{ Users }}"
+  with_items: "{{ SshCustomConfig }}"
   loop_control:
     label: "{{ item.UserName }}"
 
@@ -17,6 +17,6 @@
     backup: no
     mode: 0644
   become_user: "{{ item.UserName }}"
-  with_items: "{{ Users }}"
+  with_items: "{{ SshCustomConfig }}"
   loop_control:
     label: "{{ item.UserName }}"
