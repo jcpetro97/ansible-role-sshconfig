@@ -1,5 +1,4 @@
 {{ ansible_managed | comment }}
 
-{% for config in item.UserName %}
-foo
-{% endfor %}
+# Config for {{item.UserName}}
+{{item.Entry}}
