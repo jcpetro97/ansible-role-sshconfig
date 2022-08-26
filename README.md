@@ -1,7 +1,7 @@
 SshConfig
 =========
 
-This role will create/update the /home/<username>/.ssh/config file with the content specified in the playbook exexution.
+This role will create/update the /home/<username>/.ssh/config file with the content specified in the playbook execution.
 
 Requirements
 ------------
