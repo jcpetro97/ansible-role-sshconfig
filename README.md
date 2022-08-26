@@ -1,45 +1,68 @@
-# SshConfig
+SshConfig
+=========
 
-This role will create/update the /home/<username>/.ssh/config file.  There are two different configs, one for Work, one for Home.
+This role will create/update the /home/<username>/.ssh/config file with the content specified in the playbook execution.
 
-#### Variables
+Requirements
+------------
+None
 
-| Parameter | Choices | Comments |
-| --------- | ------- | -------- |
-| `UserName`| | Username where config will be copied to|
-| `SshCustomConfig`| | This is where the .ssh/config file entries should be placed|
+Role Variables
+--------------
+
+| Parameter | Comments |
+| --------- | -------- |
+| `UserName`| Username where config will be copied to|
+| `SshCustomConfig`| This is where the .ssh/config file entries should be placed|
 
 
-#### Example role execution
+Example Playbook
+----------------
+
+Single User Config
+```
+      - role: SshConfig
+        vars:
+          SshCustomConfig:
+            - UserName: testuser
+              Entry: |  
+                Host: *
+                  ForwardAgent yes
+
+```
+
+Multiple User Configs
 
 ```
       - role: SshConfig
         vars:
-          Location: "home"
-          UserName: "jpetro"
           SshCustomConfig:
-            - Host: "hostname"
-              Hostname: "192.168.129.1"
-
-      - role: SshConfig
-        vars:
-          Location: "home"
-          UserName: "jpetro"
-          SshCustomConfig:
-            - Host: "gitea gitea.johnpetro.com"
-              Hostname: "home.johnpetro.com"
-              Options: |
-                  Port 3000
-                  User git
-            - Host: "gitea2 gitea2.johnpetro.com"
-              Hostname: "home2.johnpetro.com"
-              Options: |
-                  Port 3002
-                  User git
+            - UserName: testuser
+              Entry: |  
+                Host: *
+                  ForwardAgent yes
+                Host github.com
+                  Hostname github.com
+                  PreferredAuthentications publickey
+                  IdentityFile ~/.ssh/github_testuser
+            - UserName: root
+              Entry: |  
+                Host github.com
+                  Hostname github.com
+                  IdentityFile ~/.ssh/github_testuser
+                Host gitea.example.com
+                  Hostname gitea.example.com
+                  IdentityFile ~/.ssh/gitea_testuser
 
 
 ```
 
-#### Misc Notes 
+License
+-------
+MIT
 
-In the template, the `%- endif -%`  means that the trailing whitespace will be stripped out.
+Author Information
+------------------
+
+* This role was created in 2020 by [John Petro](https://github.com/jcpetro97)
+* Code updated to V2 in 8/2022
